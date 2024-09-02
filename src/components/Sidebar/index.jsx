@@ -35,7 +35,6 @@ function Sidebar({ setMobileOpen }) {
   const theme = useTheme();
   const classes = useStyles();
 
-  console.log("theme.pallete.mode: ", theme);
   return (
     <>
       <Link to="/" className={classes.imageLink}>
