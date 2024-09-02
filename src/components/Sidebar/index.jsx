@@ -8,11 +8,15 @@ import {
   ListItemIcon,
   Box,
   CircularProgress,
+  ListItemButton,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useTheme } from "@mui/styles";
 import { useGetGenresQuery } from "../../services/TMDB";
 import genresIcon from "../../assets/genres";
+
+import { useDispatch, useSelector } from "react-redux";
+import { selectGenreOrCategory } from "../../features/currentGenreOrCategories";
 
 import useStyles from "./styles";
 
@@ -20,11 +24,6 @@ const categories = [
   { label: "Popular", value: "popular" },
   { label: "Top Rated", value: "top_rated" },
   { label: "Upcoming", value: "upcoming" },
-];
-const demoCategories = [
-  { label: "Comedy", value: "comedy" },
-  { label: "action", value: "action" },
-  { label: "Animation", value: "animation" },
 ];
 
 const IMAGES = {
@@ -38,25 +37,26 @@ function Sidebar({ setMobileOpen }) {
   const classes = useStyles();
 
   const { data, isFetching } = useGetGenresQuery();
-
-  console.log("isi data: ", data);
+  const dispatch = useDispatch();
 
   return (
     <>
-      <Link to='/' className={classes.imageLink}>
+      <Link to="/" className={classes.imageLink}>
         <img
           className={classes.image}
           src={
             theme.palette.mode === "light" ? IMAGES.logo_blue : IMAGES.logo_red
           }
-          alt='MovieDex logo'
+          alt="MovieDex logo"
         />
       </Link>
       <Divider />
       <ListSubheader>Categories</ListSubheader>
       {categories.map(({ label, value }) => (
-        <Link key={value} className={classes.links} to='/'>
-          <ListItem onClick={() => {}} button>
+        <Link key={value} className={classes.links} to="/">
+          <ListItemButton
+            onClick={() => dispatch(selectGenreOrCategory(value))}
+          >
             <ListItemIcon>
               <img
                 src={genresIcon[label.toLowerCase()]}
@@ -65,18 +65,18 @@ function Sidebar({ setMobileOpen }) {
               />
             </ListItemIcon>
             <ListItemText primary={label} />
-          </ListItem>
+          </ListItemButton>
         </Link>
       ))}
       <Divider />
       <ListSubheader>Genres</ListSubheader>
       {isFetching ? (
-        <Box display='flex' justifyContent='center'>
+        <Box display="flex" justifyContent="center">
           <CircularProgress />
         </Box>
       ) : (
         data.genres.map(({ name, id }) => (
-          <Link key={id} className={classes.links} to='/'>
+          <Link key={id} className={classes.links} to="/">
             <ListItem onClick={() => {}}>
               <ListItemIcon>
                 <img
