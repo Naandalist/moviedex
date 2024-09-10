@@ -9,9 +9,19 @@ import { useSelector } from "react-redux";
 import { MovieList } from "..";
 
 import { useGetMoviesQuery } from "../../services/TMDB";
+import { selectGenreOrCategory } from "../../features/currentGenreOrCategories";
 
 function Movies() {
-  const { data, error, isFetching } = useGetMoviesQuery();
+  const [page, setPage] = useState(1);
+
+  const { genreIdOrCategoryName } = useSelector(
+    (state) => state.currentGenreOrCategory
+  );
+
+  const { data, error, isFetching } = useGetMoviesQuery({
+    genreIdOrCategoryName,
+    page,
+  });
 
   if (isFetching) {
     return (
@@ -21,7 +31,7 @@ function Movies() {
     );
   }
 
-  if (!data.results) {
+  if (!data?.results) {
     <Box display='flex' alignItems='center' mt='20px'>
       <Typography variant='h4'>{`No movies match with that name.\n Please search for something else!`}</Typography>
     </Box>;

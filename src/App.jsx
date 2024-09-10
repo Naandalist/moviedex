@@ -21,16 +21,16 @@ function App() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Switch>
-          <Route exac path="/movies">
+          <Route exac path='/'>
             <Movies />
           </Route>
-          <Route exac path="/movie:id">
+          <Route exac path='/movie:id'>
             <MovieInformation />
           </Route>
-          <Route exac path="/actors">
+          <Route exac path='/actors'>
             <Actors />
           </Route>
-          <Route exac path="/profile">
+          <Route exac path='/profile'>
             <Profile />
           </Route>
         </Switch>
